@@ -1,0 +1,121 @@
+<div class="register-container">
+    <p-card>
+        <ng-template #title>
+            <div class="card-title">
+                <i class="pi pi-user-plus"></i>
+                <span>Create Account</span>
+            </div>
+        </ng-template>
+        <ng-template #subtitle>
+            <span>Fill in your details to register</span>
+        </ng-template>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-grid">
+            <div class="name-row">
+                <div class="field">
+                    <label for="firstName">First Name</label>
+                    <input
+                        pInputText
+                        id="firstName"
+                        type="text"
+                        formControlName="firstName"
+                        placeholder="John"
+                        [invalid]="isInvalid('firstName')"
+                        class="w-full"
+                    />
+                    @if (isInvalid('firstName')) {
+                        <p-message severity="error" size="small" variant="simple">
+                            First name is required.
+                        </p-message>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="lastName">Last Name</label>
+                    <input
+                        pInputText
+                        id="lastName"
+                        type="text"
+                        formControlName="lastName"
+                        placeholder="Doe"
+                        [invalid]="isInvalid('lastName')"
+                        class="w-full"
+                    />
+                    @if (isInvalid('lastName')) {
+                        <p-message severity="error" size="small" variant="simple">
+                            Last name is required.
+                        </p-message>
+                    }
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input
+                    pInputText
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="your@email.com"
+                    [invalid]="isInvalid('email')"
+                    class="w-full"
+                />
+                @if (isInvalid('email')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        Valid email is required.
+                    </p-message>
+                }
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <p-password
+                    id="password"
+                    formControlName="password"
+                    [toggleMask]="true"
+                    [invalid]="isInvalid('password')"
+                    placeholder="Min. 6 characters"
+                    styleClass="w-full"
+                    [inputStyle]="{ width: '100%' }"
+                />
+                @if (isInvalid('password')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        Password must be at least 6 characters.
+                    </p-message>
+                }
+            </div>
+
+            <div class="field">
+                <label for="confirmPassword">Confirm Password</label>
+                <p-password
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [invalid]="isInvalid('confirmPassword')"
+                    placeholder="Repeat password"
+                    styleClass="w-full"
+                    [inputStyle]="{ width: '100%' }"
+                />
+                @if (isInvalid('confirmPassword')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        Passwords must match.
+                    </p-message>
+                }
+            </div>
+
+            <p-button
+                type="submit"
+                label="Register"
+                icon="pi pi-user-plus"
+                [loading]="loading"
+                styleClass="w-full"
+            />
+
+            <div class="login-link">
+                <span>Already have an account?</span>
+                <a routerLink="/login">Log in here</a>
+            </div>
+        </form>
+    </p-card>
+</div>

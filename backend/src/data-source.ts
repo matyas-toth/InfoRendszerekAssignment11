@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USER || "root",
     password: process.env.DB_PASS || "",
     database: process.env.DB_NAME || "mydb",
-    synchronize: true, // dev-en true, élesben false
+    synchronize: true,
     logging: false,
     entities: [User],
 });

@@ -1,0 +1,65 @@
+<div class="login-container">
+    <p-card>
+        <ng-template #title>
+            <div class="card-title">
+                <i class="pi pi-sign-in"></i>
+                <span>Log In</span>
+            </div>
+        </ng-template>
+        <ng-template #subtitle>
+            <span>Enter your credentials to continue</span>
+        </ng-template>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-grid">
+            <div class="field">
+                <label for="email">Email</label>
+                <input
+                    pInputText
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="your@email.com"
+                    [invalid]="isInvalid('email')"
+                    class="w-full"
+                />
+                @if (isInvalid('email')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        Valid email is required.
+                    </p-message>
+                }
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <p-password
+                    id="password"
+                    formControlName="password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [invalid]="isInvalid('password')"
+                    placeholder="Your password"
+                    styleClass="w-full"
+                    [inputStyle]="{ width: '100%' }"
+                />
+                @if (isInvalid('password')) {
+                    <p-message severity="error" size="small" variant="simple">
+                        Password is required.
+                    </p-message>
+                }
+            </div>
+
+            <p-button
+                type="submit"
+                label="Log In"
+                icon="pi pi-sign-in"
+                [loading]="loading"
+                styleClass="w-full"
+            />
+
+            <div class="register-link">
+                <span>Don't have an account?</span>
+                <a routerLink="/register">Register here</a>
+            </div>
+        </form>
+    </p-card>
+</div>
