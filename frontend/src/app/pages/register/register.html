@@ -1,19 +1,19 @@
-<div class="register-container">
-    <p-card>
+<div class="register-wrapper">
+    <p-card styleClass="register-card border-1 border-surface-200">
         <ng-template #title>
-            <div class="card-title">
-                <i class="pi pi-user-plus"></i>
+            <div class="card-title text-primary">
+                <i class="pi pi-user-plus text-2xl"></i>
                 <span>Create Account</span>
             </div>
         </ng-template>
         <ng-template #subtitle>
-            <span>Fill in your details to register</span>
+            <span class="text-color-secondary">Fill in your details to register</span>
         </ng-template>
 
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-grid">
-            <div class="name-row">
-                <div class="field">
-                    <label for="firstName">First Name</label>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5 mt-4 p-fluid">
+            <div class="flex flex-col md:flex-row gap-5">
+                <div class="flex-1">
+                    <label for="firstName" class="block font-medium mb-2">First Name</label>
                     <input
                         pInputText
                         id="firstName"
@@ -24,14 +24,12 @@
                         class="w-full"
                     />
                     @if (isInvalid('firstName')) {
-                        <p-message severity="error" size="small" variant="simple">
-                            First name is required.
-                        </p-message>
+                        <small class="text-red-500 block mt-1">First name is required.</small>
                     }
                 </div>
 
-                <div class="field">
-                    <label for="lastName">Last Name</label>
+                <div class="flex-1">
+                    <label for="lastName" class="block font-medium mb-2">Last Name</label>
                     <input
                         pInputText
                         id="lastName"
@@ -42,15 +40,13 @@
                         class="w-full"
                     />
                     @if (isInvalid('lastName')) {
-                        <p-message severity="error" size="small" variant="simple">
-                            Last name is required.
-                        </p-message>
+                        <small class="text-red-500 block mt-1">Last name is required.</small>
                     }
                 </div>
             </div>
 
-            <div class="field">
-                <label for="email">Email</label>
+            <div>
+                <label for="email" class="block font-medium mb-2">Email</label>
                 <input
                     pInputText
                     id="email"
@@ -61,14 +57,12 @@
                     class="w-full"
                 />
                 @if (isInvalid('email')) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Valid email is required.
-                    </p-message>
+                    <small class="text-red-500 block mt-1">Valid email is required.</small>
                 }
             </div>
 
-            <div class="field">
-                <label for="password">Password</label>
+            <div>
+                <label for="password" class="block font-medium mb-2">Password</label>
                 <p-password
                     id="password"
                     formControlName="password"
@@ -79,14 +73,12 @@
                     [inputStyle]="{ width: '100%' }"
                 />
                 @if (isInvalid('password')) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Password must be at least 6 characters.
-                    </p-message>
+                    <small class="text-red-500 block mt-1">Password must be at least 6 characters.</small>
                 }
             </div>
 
-            <div class="field">
-                <label for="confirmPassword">Confirm Password</label>
+            <div>
+                <label for="confirmPassword" class="block font-medium mb-2">Confirm Password</label>
                 <p-password
                     id="confirmPassword"
                     formControlName="confirmPassword"
@@ -98,9 +90,7 @@
                     [inputStyle]="{ width: '100%' }"
                 />
                 @if (isInvalid('confirmPassword')) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Passwords must match.
-                    </p-message>
+                    <small class="text-red-500 block mt-1">Passwords must match.</small>
                 }
             </div>
 
@@ -109,11 +99,11 @@
                 label="Register"
                 icon="pi pi-user-plus"
                 [loading]="loading"
-                styleClass="w-full"
+                styleClass="w-full mt-2"
             />
 
             <div class="login-link">
-                <span>Already have an account?</span>
+                <span class="text-color-secondary">Already have an account?</span>
                 <a routerLink="/login">Log in here</a>
             </div>
         </form>

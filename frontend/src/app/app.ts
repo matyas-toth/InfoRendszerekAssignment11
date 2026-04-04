@@ -17,6 +17,7 @@ export class App implements OnInit {
     private messageService = inject(MessageService);
 
     items: MenuItem[] = [];
+    isDarkTheme = true;
 
     ngOnInit() {
         this.items = [
@@ -67,5 +68,17 @@ export class App implements OnInit {
             summary: "Logged Out",
             detail: "You have been logged out.",
         });
+    }
+
+    toggleTheme() {
+        this.isDarkTheme = !this.isDarkTheme;
+        const html = document.querySelector('html');
+        if (html) {
+            if (this.isDarkTheme) {
+                html.classList.add('app-dark');
+            } else {
+                html.classList.remove('app-dark');
+            }
+        }
     }
 }

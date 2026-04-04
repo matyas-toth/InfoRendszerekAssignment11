@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, ChangeDetectorRef } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -36,11 +36,13 @@ export class DonorsComponent implements OnInit {
     private donorService = inject(DonorService);
     private fb = inject(FormBuilder);
     private messageService = inject(MessageService);
+    private cdr = inject(ChangeDetectorRef);
 
     donors: DonorDTO[] = [];
     donorDialog = false;
     isEdit = false;
     submitted = false;
+    loading = true;
 
     genderOptions = [
         { label: 'Male', value: 'Male' },
@@ -64,8 +66,18 @@ export class DonorsComponent implements OnInit {
     }
 
     loadDonors() {
-        this.donorService.getAll().subscribe((data) => {
-            this.donors = data.map(d => ({...d, birthDate: new Date(d.birthDate)}));
+        this.loading = true;
+        this.donorService.getAll().subscribe({
+            next: (data) => {
+                this.donors = data.map(d => ({...d, birthDate: new Date(d.birthDate)}));
+                this.loading = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                this.showError(err);
+                this.loading = false;
+                this.cdr.detectChanges();
+            }
         });
     }
 
@@ -100,8 +112,12 @@ export class DonorsComponent implements OnInit {
                     this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Updated" });
                     this.loadDonors();
                     this.hideDialog();
+                    this.cdr.detectChanges();
                 },
-                error: (err) => this.showError(err)
+                error: (err) => {
+                    this.showError(err);
+                    this.cdr.detectChanges();
+                }
             });
         } else {
             this.donorService.create(data).subscribe({
@@ -109,8 +125,12 @@ export class DonorsComponent implements OnInit {
                     this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Created" });
                     this.loadDonors();
                     this.hideDialog();
+                    this.cdr.detectChanges();
                 },
-                error: (err) => this.showError(err)
+                error: (err) => {
+                    this.showError(err);
+                    this.cdr.detectChanges();
+                }
             });
         }
     }
@@ -121,8 +141,12 @@ export class DonorsComponent implements OnInit {
                 next: () => {
                     this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Deleted" });
                     this.loadDonors();
+                    this.cdr.detectChanges();
                 },
-                error: (err) => this.showError(err)
+                error: (err) => {
+                    this.showError(err);
+                    this.cdr.detectChanges();
+                }
             });
         }
     }

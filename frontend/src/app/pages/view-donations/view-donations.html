@@ -29,7 +29,7 @@
         </form>
     </p-card>
 
-    <p-table [value]="donations" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+    <p-table [value]="donations" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
         <ng-template #header>
             <tr>
                 <th>Date</th>

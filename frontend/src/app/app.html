@@ -1,22 +1,34 @@
 <p-toast />
 
 @if(authService.isLoggedIn()) {
-    <p-menubar [model]="items">
-        <ng-template #start>
-            <div class="font-bold text-xl mr-4 flex items-center gap-2" style="color: var(--p-primary-color);">
-                <i class="pi pi-heart-fill"></i>
-                Véradás
-            </div>
-        </ng-template>
-        <ng-template #end>
-            <div class="flex items-center gap-2">
-                <button class="p-link flex items-center p-2 text-color hover:surface-200 border-round" (click)="logout()">
-                    <i class="pi pi-sign-out text-lg mr-2"></i>
-                    <span class="font-medium">Logout</span>
-                </button>
-            </div>
-        </ng-template>
-    </p-menubar>
+<p-menubar [model]="items">
+    <ng-template #start>
+        <div class="font-bold text-xl mr-4 flex items-center gap-2" style="color: var(--p-primary-color);">
+            <i class="pi pi-heart-fill"></i>
+            Véradás
+        </div>
+    </ng-template>
+    <ng-template #end>
+        <div class="flex items-center gap-2">
+            <button class="p-link flex items-center p-2 hover:surface-200 border-round cursor-pointer"
+                style="color: var(--p-text-color)" (click)="toggleTheme()" type="button">
+                <i class="pi text-xl {{ isDarkTheme ? 'pi-sun' : 'pi-moon' }}"></i>
+            </button>
+            <button class="p-link flex items-center p-2 hover:surface-200 border-round cursor-pointer"
+                style="color: var(--p-text-color)" (click)="logout()">
+                <i class="pi pi-sign-out text-lg mr-2"></i>
+                <span class="font-medium">Logout</span>
+            </button>
+        </div>
+    </ng-template>
+</p-menubar>
+} @else {
+<div class="absolute top-0 right-0 p-4">
+    <button class="p-link flex items-center p-2 hover:surface-200 border-round cursor-pointer"
+        style="color: var(--p-text-color)" (click)="toggleTheme()" type="button">
+        <i class="pi text-xl {{ isDarkTheme ? 'pi-sun' : 'pi-moon' }}"></i>
+    </button>
+</div>
 }
 
 <div class="content-wrapper">

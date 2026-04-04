@@ -1,18 +1,18 @@
-<div class="login-container">
-    <p-card>
+<div class="login-wrapper">
+    <p-card styleClass="login-card border-1 border-surface-200">
         <ng-template #title>
-            <div class="card-title">
-                <i class="pi pi-sign-in"></i>
+            <div class="card-title text-primary">
+                <i class="pi pi-sign-in text-2xl"></i>
                 <span>Log In</span>
             </div>
         </ng-template>
         <ng-template #subtitle>
-            <span>Enter your credentials to continue</span>
+            <span class="text-color-secondary">Enter your credentials to continue</span>
         </ng-template>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-grid">
-            <div class="field">
-                <label for="email">Email</label>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5 mt-4 p-fluid">
+            <div>
+                <label for="email" class="block font-medium mb-2">Email</label>
                 <input
                     pInputText
                     id="email"
@@ -23,14 +23,12 @@
                     class="w-full"
                 />
                 @if (isInvalid('email')) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Valid email is required.
-                    </p-message>
+                    <small class="text-red-500 block mt-1">Valid email is required.</small>
                 }
             </div>
 
-            <div class="field">
-                <label for="password">Password</label>
+            <div>
+                <label for="password" class="block font-medium mb-2">Password</label>
                 <p-password
                     id="password"
                     formControlName="password"
@@ -42,9 +40,7 @@
                     [inputStyle]="{ width: '100%' }"
                 />
                 @if (isInvalid('password')) {
-                    <p-message severity="error" size="small" variant="simple">
-                        Password is required.
-                    </p-message>
+                    <small class="text-red-500 block mt-1">Password is required.</small>
                 }
             </div>
 
@@ -53,11 +49,11 @@
                 label="Log In"
                 icon="pi pi-sign-in"
                 [loading]="loading"
-                styleClass="w-full"
+                styleClass="w-full mt-2"
             />
 
             <div class="register-link">
-                <span>Don't have an account?</span>
+                <span class="text-color-secondary">Don't have an account?</span>
                 <a routerLink="/register">Register here</a>
             </div>
         </form>

@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/core";
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
@@ -11,16 +11,20 @@ import { accessTokenInterceptor } from "./interceptors/access-token.interceptor"
 import { unauthorizedInterceptor } from "./interceptors/unauthorized.interceptor";
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideBrowserGlobalErrorListeners(),
-        provideRouter(routes),
-        provideHttpClient(withInterceptors([accessTokenInterceptor, unauthorizedInterceptor])),
-        provideAnimationsAsync(),
-        providePrimeNG({
-            theme: {
-                preset: Aura,
-            },
-        }),
-        MessageService,
-    ],
+  providers: [
+    provideZonelessChangeDetection(),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([accessTokenInterceptor, unauthorizedInterceptor])),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: '.app-dark'
+        }
+      },
+    }),
+    MessageService,
+  ],
 };

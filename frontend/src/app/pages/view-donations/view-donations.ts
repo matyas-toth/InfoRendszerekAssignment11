@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, ChangeDetectorRef } from "@angular/core";
 import { CommonModule, DatePipe } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -35,10 +35,12 @@ export class ViewDonationsComponent implements OnInit {
     private donationService = inject(DonationService);
     private fb = inject(FormBuilder);
     private messageService = inject(MessageService);
+    private cdr = inject(ChangeDetectorRef);
 
     locations: any[] = [];
     donors: any[] = [];
     donations: DonationDTO[] = [];
+    loading = true;
 
     filterForm = this.fb.group({
         locationId: [null],
@@ -55,6 +57,7 @@ export class ViewDonationsComponent implements OnInit {
     loadLocations() {
         this.locationService.getAll().subscribe(data => {
             this.locations = [{ id: null, institutionName: "All Locations" }, ...data];
+            this.cdr.detectChanges();
         });
     }
 
@@ -62,6 +65,7 @@ export class ViewDonationsComponent implements OnInit {
         this.donorService.getAll().subscribe(data => {
             const mapped = data.map(d => ({ id: d.id, displayName: `${d.name} (${d.tajNumber})` }));
             this.donors = [{ id: null, displayName: "All Donors" }, ...mapped];
+            this.cdr.detectChanges();
         });
     }
 
@@ -80,15 +84,21 @@ export class ViewDonationsComponent implements OnInit {
              req.startDate = filters.dateRange[0];
         }
 
+        this.loading = true;
+        this.loading = true;
         this.donationService.getFiltered(req).subscribe({
             next: (data) => {
                 this.donations = data;
+                this.loading = false;
                 if (data.length === 0) {
                      this.messageService.add({ severity: "info", summary: "Info", detail: "No donations found for the selected criteria." });
                 }
+                this.cdr.detectChanges();
             },
             error: (err) => {
+                this.loading = false;
                 this.messageService.add({ severity: "error", summary: "Error", detail: "Failed to load donations." });
+                this.cdr.detectChanges();
             }
         });
     }

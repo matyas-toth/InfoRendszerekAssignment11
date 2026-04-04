@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { Component, inject, OnInit, ChangeDetectorRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -34,11 +34,13 @@ export class LocationsComponent implements OnInit {
     private locationService = inject(LocationService);
     private fb = inject(FormBuilder);
     private messageService = inject(MessageService);
+    private cdr = inject(ChangeDetectorRef);
 
     locations: LocationDTO[] = [];
     locationDialog = false;
     isEdit = false;
     submitted = false;
+    loading = true;
 
     locationForm = this.fb.group({
         id: [0],
@@ -51,8 +53,18 @@ export class LocationsComponent implements OnInit {
     }
 
     loadLocations() {
-        this.locationService.getAll().subscribe((data) => {
-            this.locations = data;
+        this.loading = true;
+        this.locationService.getAll().subscribe({
+            next: (data) => {
+                this.locations = data;
+                this.loading = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                this.showError(err);
+                this.loading = false;
+                this.cdr.detectChanges();
+            }
         });
     }
 
@@ -87,8 +99,12 @@ export class LocationsComponent implements OnInit {
                     this.messageService.add({ severity: "success", summary: "Successful", detail: "Location Updated" });
                     this.loadLocations();
                     this.hideDialog();
+                    this.cdr.detectChanges();
                 },
-                error: (err) => this.showError(err)
+                error: (err) => {
+                    this.showError(err);
+                    this.cdr.detectChanges();
+                }
             });
         } else {
             this.locationService.create(data).subscribe({
@@ -108,8 +124,12 @@ export class LocationsComponent implements OnInit {
                 next: () => {
                     this.messageService.add({ severity: "success", summary: "Successful", detail: "Location Deleted" });
                     this.loadLocations();
+                    this.cdr.detectChanges();
                 },
-                error: (err) => this.showError(err)
+                error: (err) => {
+                    this.showError(err);
+                    this.cdr.detectChanges();
+                }
             });
         }
     }
@@ -120,8 +140,12 @@ export class LocationsComponent implements OnInit {
                 const action = location.active ? "Deactivated" : "Activated";
                 this.messageService.add({ severity: "success", summary: "Successful", detail: `Location ${action}` });
                 this.loadLocations();
+                this.cdr.detectChanges();
             },
-            error: (err) => this.showError(err)
+            error: (err) => {
+                this.showError(err);
+                this.cdr.detectChanges();
+            }
         });
     }
 

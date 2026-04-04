@@ -6,12 +6,12 @@
     @if(authService.isLoggedIn()) {
         <p-toolbar styleClass="mb-4">
             <ng-template #start>
-                <p-button label="New" icon="pi pi-plus" (onClick)="openNew()" />
+                <p-button label="New Location" icon="pi pi-plus" (onClick)="openNew()" />
             </ng-template>
         </p-toolbar>
     }
 
-    <p-table [value]="locations" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+    <p-table [value]="locations" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
         <ng-template #header>
             <tr>
                 <th>Institution Name</th>
@@ -32,7 +32,7 @@
                 @if(authService.isLoggedIn()) {
                     <td class="action-buttons">
                         <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info" (onClick)="editLocation(location)" />
-                        <p-button [icon]="location.active ? 'pi pi-times' : 'pi pi-check'" [rounded]="true" [outlined]="true" [severity]="location.active ? 'warn' : 'success'" (onClick)="toggleActive(location)" [pTooltip]="location.active ? 'Deactivate' : 'Activate'" />
+                        <p-button [icon]="location.active ? 'pi pi-times' : 'pi pi-check'" [rounded]="true" [outlined]="true" [severity]="location.active ? 'warn' : 'success'" (onClick)="toggleActive(location)" pTooltip="Toggle Status" />
                         <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger" (onClick)="deleteLocation(location)" />
                     </td>
                 }
@@ -45,20 +45,21 @@
         </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Edit Location' : 'New Location'" [modal]="true" class="p-fluid">
-        <form [formGroup]="locationForm">
-            <div class="field">
-                <label for="institutionName">Institution Name</label>
-                <input type="text" pInputText id="institutionName" formControlName="institutionName" required autofocus />
+    <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Edit Location' : 'New Location'" [modal]="true">
+        <form [formGroup]="locationForm" class="flex flex-col gap-5 p-fluid mt-2">
+            <div>
+                <label for="institutionName" class="block font-medium mb-2">Institution Name</label>
+                <input type="text" pInputText id="institutionName" formControlName="institutionName" required autofocus class="w-full" />
                 @if(submitted && locationForm.controls.institutionName.invalid) {
-                    <small class="p-error">Institution Name is required.</small>
+                    <small class="text-red-500 block mt-1">Institution Name is required.</small>
                 }
             </div>
-            <div class="field mt-3">
-                <label for="address">Address</label>
-                <input type="text" pInputText id="address" formControlName="address" required />
+            
+            <div>
+                <label for="address" class="block font-medium mb-2">Address</label>
+                <input type="text" pInputText id="address" formControlName="address" required class="w-full" />
                 @if(submitted && locationForm.controls.address.invalid) {
-                    <small class="p-error">Address is required.</small>
+                    <small class="text-red-500 block mt-1">Address is required.</small>
                 }
             </div>
         </form>
