@@ -1,0 +1,70 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1>Locations</h1>
+    </div>
+
+    @if(authService.isLoggedIn()) {
+        <p-toolbar styleClass="mb-4">
+            <ng-template #start>
+                <p-button label="New" icon="pi pi-plus" (onClick)="openNew()" />
+            </ng-template>
+        </p-toolbar>
+    }
+
+    <p-table [value]="locations" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+        <ng-template #header>
+            <tr>
+                <th>Institution Name</th>
+                <th>Address</th>
+                <th>Status</th>
+                @if(authService.isLoggedIn()) {
+                    <th style="width: 15rem">Actions</th>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #body let-location>
+            <tr>
+                <td>{{ location.institutionName }}</td>
+                <td>{{ location.address }}</td>
+                <td>
+                    <p-tag [value]="location.active ? 'Active' : 'Inactive'" [severity]="location.active ? 'success' : 'danger'" />
+                </td>
+                @if(authService.isLoggedIn()) {
+                    <td class="action-buttons">
+                        <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info" (onClick)="editLocation(location)" />
+                        <p-button [icon]="location.active ? 'pi pi-times' : 'pi pi-check'" [rounded]="true" [outlined]="true" [severity]="location.active ? 'warn' : 'success'" (onClick)="toggleActive(location)" [pTooltip]="location.active ? 'Deactivate' : 'Activate'" />
+                        <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger" (onClick)="deleteLocation(location)" />
+                    </td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [attr.colspan]="authService.isLoggedIn() ? 4 : 3">No locations found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Edit Location' : 'New Location'" [modal]="true" class="p-fluid">
+        <form [formGroup]="locationForm">
+            <div class="field">
+                <label for="institutionName">Institution Name</label>
+                <input type="text" pInputText id="institutionName" formControlName="institutionName" required autofocus />
+                @if(submitted && locationForm.controls.institutionName.invalid) {
+                    <small class="p-error">Institution Name is required.</small>
+                }
+            </div>
+            <div class="field mt-3">
+                <label for="address">Address</label>
+                <input type="text" pInputText id="address" formControlName="address" required />
+                @if(submitted && locationForm.controls.address.invalid) {
+                    <small class="p-error">Address is required.</small>
+                }
+            </div>
+        </form>
+        <ng-template #footer>
+            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveLocation()" />
+        </ng-template>
+    </p-dialog>
+</div>

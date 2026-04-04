@@ -1,0 +1,67 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1>View Donations</h1>
+    </div>
+
+    <p-card styleClass="mb-4">
+        <form [formGroup]="filterForm" (ngSubmit)="loadDonations()" class="p-fluid">
+            <div class="formgrid grid">
+                <div class="field col-12 md:col-3">
+                    <label for="locationId">Location</label>
+                    <p-select [options]="locations" formControlName="locationId" optionLabel="institutionName" optionValue="id" placeholder="All Locations" />
+                </div>
+                
+                <div class="field col-12 md:col-3">
+                    <label for="donorId">Donor</label>
+                    <p-select [options]="donors" formControlName="donorId" optionLabel="displayName" optionValue="id" [filter]="true" filterBy="displayName" placeholder="All Donors" />
+                </div>
+
+                <div class="field col-12 md:col-4">
+                    <label for="dateRange">Date Range</label>
+                    <p-datepicker formControlName="dateRange" selectionMode="range" [readonlyInput]="true" dateFormat="yy-mm-dd" placeholder="Select start & end date" />
+                </div>
+
+                <div class="field col-12 md:col-2 flex items-end gap-2 pb-2">
+                    <p-button label="Filter" icon="pi pi-filter" type="submit" />
+                    <p-button label="Clear" icon="pi pi-filter-slash" severity="secondary" [outlined]="true" (onClick)="clearFilters()" />
+                </div>
+            </div>
+        </form>
+    </p-card>
+
+    <p-table [value]="donations" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+        <ng-template #header>
+            <tr>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Donor</th>
+                <th>Doctor</th>
+                <th>Directed</th>
+                <th>Patient Details</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-donation>
+            <tr>
+                <td>{{ donation.donationDate | date:'mediumDate' }}</td>
+                <td>{{ donation.location?.institutionName }}</td>
+                <td>{{ donation.donor?.name }}</td>
+                <td>{{ donation.doctorName }}</td>
+                <td>
+                    <p-tag [value]="donation.directed ? 'Yes' : 'No'" [severity]="donation.directed ? 'info' : 'secondary'" />
+                </td>
+                <td>
+                    @if(donation.directed) {
+                        <div>{{ donation.patientName }} (TAJ: {{ donation.patientTajNumber }})</div>
+                    } @else {
+                        <span class="text-muted">-</span>
+                    }
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="6" class="text-center">No successful donations found matching the criteria.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

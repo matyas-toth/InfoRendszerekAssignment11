@@ -1,2 +1,24 @@
 <p-toast />
-<router-outlet />
+
+@if(authService.isLoggedIn()) {
+    <p-menubar [model]="items">
+        <ng-template #start>
+            <div class="font-bold text-xl mr-4 flex items-center gap-2" style="color: var(--p-primary-color);">
+                <i class="pi pi-heart-fill"></i>
+                Véradás
+            </div>
+        </ng-template>
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <button class="p-link flex items-center p-2 text-color hover:surface-200 border-round" (click)="logout()">
+                    <i class="pi pi-sign-out text-lg mr-2"></i>
+                    <span class="font-medium">Logout</span>
+                </button>
+            </div>
+        </ng-template>
+    </p-menubar>
+}
+
+<div class="content-wrapper">
+    <router-outlet />
+</div>

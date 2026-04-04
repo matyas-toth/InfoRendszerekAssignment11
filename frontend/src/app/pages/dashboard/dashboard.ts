@@ -16,12 +16,7 @@ export class DashboardComponent {
     private router = inject(Router);
     private messageService = inject(MessageService);
 
-    logout(): void {
-        this.authService.logout();
-        this.messageService.add({
-            severity: "info",
-            summary: "Logged Out",
-            detail: "You have been logged out.",
-        });
+    navigate(path: string) {
+        this.router.navigate([path]);
     }
 }

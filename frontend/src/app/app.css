@@ -1,4 +1,9 @@
 :host {
     display: block;
     min-height: 100vh;
+    background-color: var(--p-surface-50);
+}
+
+.content-wrapper {
+    padding: 1rem;
 }

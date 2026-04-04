@@ -1,0 +1,93 @@
+<div class="page-container">
+    <p-card header="Record New Donation" styleClass="mt-4 max-w-4xl mx-auto">
+        <form [formGroup]="donationForm" (ngSubmit)="onSubmit()" class="p-fluid">
+            
+            <div class="formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="locationId">Location *</label>
+                    <p-select [options]="locations" formControlName="locationId" optionLabel="institutionName" optionValue="id" placeholder="Select Location" />
+                    @if(submitted && donationForm.controls.locationId.invalid) {
+                        <small class="p-error">Location is required.</small>
+                    }
+                </div>
+                
+                <div class="field col-12 md:col-6">
+                    <label for="donorId">Donor *</label>
+                    <p-select [options]="donors" formControlName="donorId" optionLabel="displayName" optionValue="id" [filter]="true" filterBy="name,tajNumber" placeholder="Select Donor" />
+                    @if(submitted && donationForm.controls.donorId.invalid) {
+                        <small class="p-error">Donor is required.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="formgrid grid mt-3">
+                <div class="field col-12 md:col-6">
+                    <label for="donationDate">Donation Date *</label>
+                    <p-datepicker formControlName="donationDate" dateFormat="yy-mm-dd" />
+                    @if(submitted && donationForm.controls.donationDate.invalid) {
+                        <small class="p-error">Donation date is required.</small>
+                    }
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="doctorName">Doctor Name *</label>
+                    <input type="text" pInputText id="doctorName" formControlName="doctorName" />
+                    @if(submitted && donationForm.controls.doctorName.invalid) {
+                        <small class="p-error">Doctor name is required.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="field-checkbox mt-4 mb-4">
+                <p-checkbox formControlName="eligible" [binary]="true" inputId="eligible" />
+                <label for="eligible" class="ml-2 font-bold text-lg">Eligible for donation</label>
+            </div>
+
+            @if(!donationForm.get('eligible')?.value) {
+                <div class="field">
+                    <label for="ineligibilityReason">Ineligibility Reason *</label>
+                    <textarea pTextarea id="ineligibilityReason" formControlName="ineligibilityReason" rows="3"></textarea>
+                    @if(submitted && donationForm.controls.ineligibilityReason.invalid) {
+                        <small class="p-error">Reason is required when donor is not eligible.</small>
+                    }
+                </div>
+            }
+
+            @if(donationForm.get('eligible')?.value) {
+                <p-card styleClass="bg-gray-50 mt-4 border-1 border-gray-200">
+                    <div class="field-checkbox mb-4">
+                        <p-checkbox formControlName="directed" [binary]="true" inputId="directed" />
+                        <label for="directed" class="ml-2 font-bold">Directed Donation (Irányított véradás)</label>
+                    </div>
+
+                    @if(donationForm.get('directed')?.value) {
+                        <div class="formgrid grid">
+                            <div class="field col-12 md:col-6">
+                                <label for="patientName">Patient Name *</label>
+                                <input type="text" pInputText id="patientName" formControlName="patientName" />
+                                @if(submitted && donationForm.controls.patientName.invalid) {
+                                    <small class="p-error">Patient name is required for directed donation.</small>
+                                }
+                            </div>
+                            
+                            <div class="field col-12 md:col-6">
+                                <label for="patientTajNumber">Patient TAJ Number *</label>
+                                <input type="text" pInputText id="patientTajNumber" formControlName="patientTajNumber" />
+                                @if(submitted && donationForm.controls.patientTajNumber.errors?.['required']) {
+                                    <small class="p-error">Patient TAJ number is required.</small>
+                                }
+                                @if(donationForm.controls.patientTajNumber.errors?.['invalidTaj']) {
+                                    <small class="p-error">Invalid TAJ number format.</small>
+                                }
+                            </div>
+                        </div>
+                    }
+                </p-card>
+            }
+
+            <div class="flex justify-end mt-5">
+                <p-button label="Save Donation" icon="pi pi-check" type="submit" [loading]="loading" />
+            </div>
+        </form>
+    </p-card>
+</div>

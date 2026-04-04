@@ -1,0 +1,119 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1>Donors</h1>
+    </div>
+
+    @if(authService.isLoggedIn()) {
+        <p-toolbar styleClass="mb-4">
+            <ng-template #start>
+                <p-button label="New" icon="pi pi-plus" (onClick)="openNew()" />
+            </ng-template>
+        </p-toolbar>
+    }
+
+    <p-table [value]="donors" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+        <ng-template #header>
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Nationality</th>
+                <th>Birth Date / Place</th>
+                <th>Address</th>
+                <th>TAJ Number</th>
+                @if(authService.isLoggedIn()) {
+                    <th style="width: 10rem">Actions</th>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #body let-donor>
+            <tr>
+                <td>{{ donor.name }}</td>
+                <td>{{ donor.gender }}</td>
+                <td>{{ donor.nationality }}</td>
+                <td>{{ donor.birthDate | date:'mediumDate' }} ({{ donor.birthPlace }})</td>
+                <td>{{ donor.address }}</td>
+                <td>{{ donor.tajNumber }}</td>
+                @if(authService.isLoggedIn()) {
+                    <td class="action-buttons">
+                        <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info" (onClick)="editDonor(donor)" />
+                        <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger" (onClick)="deleteDonor(donor)" />
+                    </td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [attr.colspan]="authService.isLoggedIn() ? 7 : 6">No donors found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="donorDialog" [style]="{width: '550px'}" [header]="isEdit ? 'Edit Donor' : 'New Donor'" [modal]="true" class="p-fluid">
+        <form [formGroup]="donorForm">
+            <div class="field">
+                <label for="name">Name</label>
+                <input type="text" pInputText id="name" formControlName="name" required autofocus />
+                @if(submitted && donorForm.controls.name.invalid) {
+                    <small class="p-error">Name is required.</small>
+                }
+            </div>
+            
+            <div class="formgrid grid">
+                <div class="field col">
+                    <label for="gender">Gender</label>
+                    <p-select [options]="genderOptions" formControlName="gender" optionLabel="label" optionValue="value" placeholder="Select Gender" appendTo="body" />
+                    @if(submitted && donorForm.controls.gender.invalid) {
+                        <small class="p-error">Gender is required.</small>
+                    }
+                </div>
+                <div class="field col">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" pInputText id="nationality" formControlName="nationality" required />
+                    @if(submitted && donorForm.controls.nationality.invalid) {
+                        <small class="p-error">Nationality is required.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="formgrid grid">
+                <div class="field col">
+                    <label for="birthDate">Birth Date</label>
+                    <p-datepicker formControlName="birthDate" appendTo="body" dateFormat="yy-mm-dd" />
+                    @if(submitted && donorForm.controls.birthDate.invalid) {
+                        <small class="p-error">Birth date is required.</small>
+                    }
+                </div>
+                <div class="field col">
+                    <label for="birthPlace">Birth Place</label>
+                    <input type="text" pInputText id="birthPlace" formControlName="birthPlace" required />
+                    @if(submitted && donorForm.controls.birthPlace.invalid) {
+                        <small class="p-error">Birth place is required.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="address">Address</label>
+                <input type="text" pInputText id="address" formControlName="address" required />
+                @if(submitted && donorForm.controls.address.invalid) {
+                    <small class="p-error">Address is required.</small>
+                }
+            </div>
+
+            <div class="field">
+                <label for="tajNumber">TAJ Number</label>
+                <input type="text" pInputText id="tajNumber" formControlName="tajNumber" required />
+                @if(submitted && donorForm.controls.tajNumber.errors?.['required']) {
+                    <small class="p-error">TAJ number is required.</small>
+                }
+                @if(donorForm.controls.tajNumber.errors?.['invalidTaj']) {
+                    <small class="p-error">Invalid TAJ number format (CDV check failed).</small>
+                }
+            </div>
+        </form>
+        <ng-template #footer>
+            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveDonor()" />
+        </ng-template>
+    </p-dialog>
+</div>
