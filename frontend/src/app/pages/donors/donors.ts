@@ -45,9 +45,9 @@ export class DonorsComponent implements OnInit {
     loading = true;
 
     genderOptions = [
-        { label: 'Male', value: 'Male' },
-        { label: 'Female', value: 'Female' },
-        { label: 'Other', value: 'Other' }
+        { label: 'Férfi', value: 'Male' },
+        { label: 'Nő', value: 'Female' },
+        { label: 'Egyéb', value: 'Other' }
     ];
 
     donorForm = this.fb.group({
@@ -69,7 +69,7 @@ export class DonorsComponent implements OnInit {
         this.loading = true;
         this.donorService.getAll().subscribe({
             next: (data) => {
-                this.donors = data.map(d => ({...d, birthDate: new Date(d.birthDate)}));
+                this.donors = data.map(d => ({ ...d, birthDate: new Date(d.birthDate) }));
                 this.loading = false;
                 this.cdr.detectChanges();
             },
@@ -91,7 +91,7 @@ export class DonorsComponent implements OnInit {
     editDonor(donor: DonorDTO) {
         this.isEdit = true;
         this.submitted = false;
-        this.donorForm.patchValue({...donor, birthDate: new Date(donor.birthDate)});
+        this.donorForm.patchValue({ ...donor, birthDate: new Date(donor.birthDate) });
         this.donorDialog = true;
     }
 
@@ -109,7 +109,7 @@ export class DonorsComponent implements OnInit {
         if (this.isEdit) {
             this.donorService.update(data).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Updated" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Donor szerkesztve" });
                     this.loadDonors();
                     this.hideDialog();
                     this.cdr.detectChanges();
@@ -122,7 +122,7 @@ export class DonorsComponent implements OnInit {
         } else {
             this.donorService.create(data).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Created" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Donor létrehozva" });
                     this.loadDonors();
                     this.hideDialog();
                     this.cdr.detectChanges();
@@ -136,10 +136,10 @@ export class DonorsComponent implements OnInit {
     }
 
     deleteDonor(donor: DonorDTO) {
-        if (confirm(`Are you sure you want to delete ${donor.name}?`)) {
+        if (confirm(`Biztosan törölni szeretnéd ${donor.name}-t?`)) {
             this.donorService.delete(donor.id).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Donor Deleted" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Donor törölve" });
                     this.loadDonors();
                     this.cdr.detectChanges();
                 },
@@ -152,6 +152,6 @@ export class DonorsComponent implements OnInit {
     }
 
     showError(err: any) {
-        this.messageService.add({ severity: "error", summary: "Error", detail: err.error?.error || "Operation failed" });
+        this.messageService.add({ severity: "error", summary: "Hiba", detail: err.error?.error || "Művelet sikertelen" });
     }
 }

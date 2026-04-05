@@ -1,24 +1,25 @@
 <div class="page-container">
     <div class="page-header">
-        <h1>Locations</h1>
+        <h1>Helyszínek</h1>
     </div>
 
     @if(authService.isLoggedIn()) {
-        <p-toolbar styleClass="mb-4">
-            <ng-template #start>
-                <p-button label="New Location" icon="pi pi-plus" (onClick)="openNew()" />
-            </ng-template>
-        </p-toolbar>
+    <p-toolbar styleClass="mb-4">
+        <ng-template #start>
+            <p-button label="Új Helyszín" icon="pi pi-plus" (onClick)="openNew()" />
+        </ng-template>
+    </p-toolbar>
     }
 
-    <p-table [value]="locations" [loading]="loading" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+    <p-table [value]="locations" [loading]="loading" [paginator]="true" [rows]="10"
+        styleClass="p-datatable-sm p-datatable-gridlines">
         <ng-template #header>
             <tr>
-                <th>Institution Name</th>
-                <th>Address</th>
-                <th>Status</th>
+                <th>Intézmény</th>
+                <th>Cím</th>
+                <th>Státusz</th>
                 @if(authService.isLoggedIn()) {
-                    <th style="width: 15rem">Actions</th>
+                <th style="width: 15rem">Műveletek</th>
                 }
             </tr>
         </ng-template>
@@ -27,45 +28,52 @@
                 <td>{{ location.institutionName }}</td>
                 <td>{{ location.address }}</td>
                 <td>
-                    <p-tag [value]="location.active ? 'Active' : 'Inactive'" [severity]="location.active ? 'success' : 'danger'" />
+                    <p-tag [value]="location.active ? 'Aktív' : 'Inaktív'"
+                        [severity]="location.active ? 'success' : 'danger'" />
                 </td>
                 @if(authService.isLoggedIn()) {
-                    <td class="action-buttons">
-                        <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info" (onClick)="editLocation(location)" />
-                        <p-button [icon]="location.active ? 'pi pi-times' : 'pi pi-check'" [rounded]="true" [outlined]="true" [severity]="location.active ? 'warn' : 'success'" (onClick)="toggleActive(location)" pTooltip="Toggle Status" />
-                        <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger" (onClick)="deleteLocation(location)" />
-                    </td>
+                <td class="action-buttons">
+                    <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info"
+                        (onClick)="editLocation(location)" />
+                    <p-button [icon]="location.active ? 'pi pi-times' : 'pi pi-check'" [rounded]="true"
+                        [outlined]="true" [severity]="location.active ? 'warn' : 'success'"
+                        (onClick)="toggleActive(location)" pTooltip="Állapotváltás" />
+                    <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger"
+                        (onClick)="deleteLocation(location)" />
+                </td>
                 }
             </tr>
         </ng-template>
         <ng-template #emptymessage>
             <tr>
-                <td [attr.colspan]="authService.isLoggedIn() ? 4 : 3">No locations found.</td>
+                <td [attr.colspan]="authService.isLoggedIn() ? 4 : 3">Nincs helyszín.</td>
             </tr>
         </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" [header]="isEdit ? 'Edit Location' : 'New Location'" [modal]="true">
+    <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}"
+        [header]="isEdit ? 'Helyszín Szerkesztése' : 'Új Helyszín'" [modal]="true">
         <form [formGroup]="locationForm" class="flex flex-col gap-5 p-fluid mt-2">
             <div>
-                <label for="institutionName" class="block font-medium mb-2">Institution Name</label>
-                <input type="text" pInputText id="institutionName" formControlName="institutionName" required autofocus class="w-full" />
+                <label for="institutionName" class="block font-medium mb-2">Intézmény Neve</label>
+                <input type="text" pInputText id="institutionName" formControlName="institutionName" required autofocus
+                    class="w-full" />
                 @if(submitted && locationForm.controls.institutionName.invalid) {
-                    <small class="text-red-500 block mt-1">Institution Name is required.</small>
+                <small class="text-red-500 block mt-1">Az intézmény neve kötelező.</small>
                 }
             </div>
-            
+
             <div>
-                <label for="address" class="block font-medium mb-2">Address</label>
+                <label for="address" class="block font-medium mb-2">Cím</label>
                 <input type="text" pInputText id="address" formControlName="address" required class="w-full" />
                 @if(submitted && locationForm.controls.address.invalid) {
-                    <small class="text-red-500 block mt-1">Address is required.</small>
+                <small class="text-red-500 block mt-1">A cím kötelező.</small>
                 }
             </div>
         </form>
         <ng-template #footer>
-            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveLocation()" />
+            <p-button label="Mégse" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Mentés" icon="pi pi-check" [text]="true" (onClick)="saveLocation()" />
         </ng-template>
     </p-dialog>
 </div>

@@ -65,7 +65,7 @@ export class AddDonationComponent implements OnInit {
 
         // Load all donors
         this.donorService.getAll().subscribe(data => {
-            this.donors = data.map(d => ({...d, displayName: `${d.name} (${d.tajNumber})`}));
+            this.donors = data.map(d => ({ ...d, displayName: `${d.name} (${d.tajNumber})` }));
         });
 
         // Subscribe to value changes to manage dynamic validation
@@ -107,12 +107,12 @@ export class AddDonationComponent implements OnInit {
 
         this.donationService.create(formValue as any).subscribe({
             next: () => {
-                this.messageService.add({ severity: "success", summary: "Success", detail: "Donation recorded successfully." });
+                this.messageService.add({ severity: "success", summary: "Siker", detail: "Véradás rögzítve." });
                 this.router.navigateByUrl('/view-donations');
             },
             error: (err) => {
                 this.loading = false;
-                this.messageService.add({ severity: "error", summary: "Error", detail: err.error?.error || "Operation failed" });
+                this.messageService.add({ severity: "error", summary: "Hiba", detail: err.error?.error || "Művelet sikertelen" });
             }
         });
     }

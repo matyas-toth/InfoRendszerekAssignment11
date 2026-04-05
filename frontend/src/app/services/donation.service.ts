@@ -33,4 +33,12 @@ export class DonationService {
 
         return this.http.get<DonationDTO[]>(this.API_URL, { params });
     }
+
+    update(data: Partial<DonationDTO>): Observable<DonationDTO> {
+        return this.http.put<DonationDTO>(this.API_URL, data);
+    }
+
+    delete(id: number): Observable<any> {
+        return this.http.delete(`${this.API_URL}/${id}`);
+    }
 }

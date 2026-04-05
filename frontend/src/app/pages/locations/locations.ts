@@ -96,7 +96,7 @@ export class LocationsComponent implements OnInit {
         if (this.isEdit) {
             this.locationService.update(data).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Location Updated" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Helyszín szerkesztve" });
                     this.loadLocations();
                     this.hideDialog();
                     this.cdr.detectChanges();
@@ -109,7 +109,7 @@ export class LocationsComponent implements OnInit {
         } else {
             this.locationService.create(data).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Location Created" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Helyszín létrehozva" });
                     this.loadLocations();
                     this.hideDialog();
                 },
@@ -119,10 +119,10 @@ export class LocationsComponent implements OnInit {
     }
 
     deleteLocation(location: LocationDTO) {
-        if (confirm(`Are you sure you want to delete ${location.institutionName}?`)) {
+        if (confirm(`Biztosan törölni szeretnéd ${location.institutionName}-t?`)) {
             this.locationService.delete(location.id).subscribe({
                 next: () => {
-                    this.messageService.add({ severity: "success", summary: "Successful", detail: "Location Deleted" });
+                    this.messageService.add({ severity: "success", summary: "Siker", detail: "Helyszín törölve" });
                     this.loadLocations();
                     this.cdr.detectChanges();
                 },
@@ -137,8 +137,8 @@ export class LocationsComponent implements OnInit {
     toggleActive(location: LocationDTO) {
         this.locationService.toggleActive(location.id).subscribe({
             next: () => {
-                const action = location.active ? "Deactivated" : "Activated";
-                this.messageService.add({ severity: "success", summary: "Successful", detail: `Location ${action}` });
+                const action = location.active ? "Kikapcsolva" : "Aktiválva";
+                this.messageService.add({ severity: "success", summary: "Siker", detail: `Helyszín ${action}` });
                 this.loadLocations();
                 this.cdr.detectChanges();
             },
@@ -150,6 +150,6 @@ export class LocationsComponent implements OnInit {
     }
 
     showError(err: any) {
-        this.messageService.add({ severity: "error", summary: "Error", detail: err.error?.error || "Operation failed" });
+        this.messageService.add({ severity: "error", summary: "Hiba", detail: err.error?.error || "Művelet sikertelen" });
     }
 }

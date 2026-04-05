@@ -1,45 +1,41 @@
 <div class="dashboard-container">
     <div class="dashboard-body mt-4">
-        <h2 class="mb-4 text-2xl font-bold">Quick Actions</h2>
+        <h2 class="mb-4 text-2xl font-bold">Gyorsműveletek</h2>
         <div class="cards-grid">
             <p-card (click)="navigate('/add-donation')" styleClass="cursor-pointer hover:shadow-4 transition-all">
                 <ng-template #title>
                     <div class="stat-title">
-                        <i class="pi pi-plus-circle text-primary text-2xl"></i>
-                        <span class="ml-2">New Donation</span>
+                        <span>Új Véradás</span>
                     </div>
                 </ng-template>
-                <p class="stat-desc">Record a new blood donation event.</p>
+                <p class="stat-desc">Új véradás létrehozása a nyilvántartásban.</p>
             </p-card>
 
             <p-card (click)="navigate('/view-donations')" styleClass="cursor-pointer hover:shadow-4 transition-all">
                 <ng-template #title>
                     <div class="stat-title">
-                        <i class="pi pi-list text-primary text-2xl"></i>
-                        <span class="ml-2">View Donations</span>
+                        <span>Véradások Megtekintése</span>
                     </div>
                 </ng-template>
-                <p class="stat-desc">Query, filter, and view successful donations.</p>
+                <p class="stat-desc">Kérdezd le a sikeres véradásokat.</p>
             </p-card>
-            
+
             <p-card (click)="navigate('/locations')" styleClass="cursor-pointer hover:shadow-4 transition-all">
                 <ng-template #title>
                     <div class="stat-title">
-                        <i class="pi pi-map-marker text-green-500 text-2xl"></i>
-                        <span class="ml-2">Locations</span>
+                        <span>Helyszínek</span>
                     </div>
                 </ng-template>
-                <p class="stat-desc">Manage donation locations and their status.</p>
+                <p class="stat-desc">Véradó helyszínek kezelése és státuszuk.</p>
             </p-card>
 
             <p-card (click)="navigate('/donors')" styleClass="cursor-pointer hover:shadow-4 transition-all">
                 <ng-template #title>
                     <div class="stat-title">
-                        <i class="pi pi-users text-blue-500 text-2xl"></i>
-                        <span class="ml-2">Donors</span>
+                        <span>Donorok</span>
                     </div>
                 </ng-template>
-                <p class="stat-desc">Register and manage blood donors.</p>
+                <p class="stat-desc">Kezeld a véradók adatait.</p>
             </p-card>
         </div>
     </div>

@@ -22,37 +22,37 @@ export class App implements OnInit {
     ngOnInit() {
         this.items = [
             {
-                label: 'Dashboard',
+                label: 'Kezdőlap',
                 icon: 'pi pi-home',
                 routerLink: '/dashboard'
             },
             {
-                label: 'System Management',
+                label: 'Management',
                 icon: 'pi pi-database',
                 items: [
                     {
-                        label: 'Locations',
+                        label: 'Helyszínek',
                         icon: 'pi pi-map-marker',
                         routerLink: '/locations'
                     },
                     {
-                        label: 'Donors',
+                        label: 'Donorok',
                         icon: 'pi pi-users',
                         routerLink: '/donors'
                     }
                 ]
             },
             {
-                label: 'Donations',
+                label: 'Véradás',
                 icon: 'pi pi-heart',
                 items: [
                     {
-                        label: 'New Donation',
+                        label: 'Új véradás',
                         icon: 'pi pi-plus',
                         routerLink: '/add-donation'
                     },
                     {
-                        label: 'View Donations',
+                        label: 'Összes véradás',
                         icon: 'pi pi-list',
                         routerLink: '/view-donations'
                     }

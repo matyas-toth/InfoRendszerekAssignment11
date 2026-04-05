@@ -35,10 +35,10 @@ export class Donation {
     @Column({ nullable: true })
     patientTajNumber: string;
 
-    @ManyToOne(() => Location, location => location.donations)
+    @ManyToOne(() => Location, location => location.donations, { onDelete: 'CASCADE' })
     location: Location;
 
-    @ManyToOne(() => Donor, donor => donor.donations)
+    @ManyToOne(() => Donor, donor => donor.donations, { onDelete: 'CASCADE' })
     donor: Donor;
 
     @CreateDateColumn()

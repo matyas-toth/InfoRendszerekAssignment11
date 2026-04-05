@@ -2,109 +2,69 @@
     <p-card styleClass="register-card border-1 border-surface-200">
         <ng-template #title>
             <div class="card-title text-primary">
-                <i class="pi pi-user-plus text-2xl"></i>
-                <span>Create Account</span>
+                <span>Fiók Létrehozása</span>
             </div>
         </ng-template>
         <ng-template #subtitle>
-            <span class="text-color-secondary">Fill in your details to register</span>
+            <span class="text-color-secondary">Adja meg adatait a regisztrációhoz</span>
         </ng-template>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5 mt-4 p-fluid">
             <div class="flex flex-col md:flex-row gap-5">
                 <div class="flex-1">
-                    <label for="firstName" class="block font-medium mb-2">First Name</label>
-                    <input
-                        pInputText
-                        id="firstName"
-                        type="text"
-                        formControlName="firstName"
-                        placeholder="John"
-                        [invalid]="isInvalid('firstName')"
-                        class="w-full"
-                    />
+                    <label for="firstName" class="block font-medium mb-2">Keresztnév</label>
+                    <input pInputText id="firstName" type="text" formControlName="firstName" placeholder="John"
+                        [invalid]="isInvalid('firstName')" class="w-full" />
                     @if (isInvalid('firstName')) {
-                        <small class="text-red-500 block mt-1">First name is required.</small>
+                    <small class="text-red-500 block mt-1">Keresztnév megadása kötelező.</small>
                     }
                 </div>
 
                 <div class="flex-1">
-                    <label for="lastName" class="block font-medium mb-2">Last Name</label>
-                    <input
-                        pInputText
-                        id="lastName"
-                        type="text"
-                        formControlName="lastName"
-                        placeholder="Doe"
-                        [invalid]="isInvalid('lastName')"
-                        class="w-full"
-                    />
+                    <label for="lastName" class="block font-medium mb-2">Vezetéknév</label>
+                    <input pInputText id="lastName" type="text" formControlName="lastName" placeholder="Doe"
+                        [invalid]="isInvalid('lastName')" class="w-full" />
                     @if (isInvalid('lastName')) {
-                        <small class="text-red-500 block mt-1">Last name is required.</small>
+                    <small class="text-red-500 block mt-1">Vezetéknév megadása kötelező.</small>
                     }
                 </div>
             </div>
 
             <div>
                 <label for="email" class="block font-medium mb-2">Email</label>
-                <input
-                    pInputText
-                    id="email"
-                    type="email"
-                    formControlName="email"
-                    placeholder="your@email.com"
-                    [invalid]="isInvalid('email')"
-                    class="w-full"
-                />
+                <input pInputText id="email" type="email" formControlName="email" placeholder="your@email.com"
+                    [invalid]="isInvalid('email')" class="w-full" />
                 @if (isInvalid('email')) {
-                    <small class="text-red-500 block mt-1">Valid email is required.</small>
+                <small class="text-red-500 block mt-1">Érvényes email cím megadása kötelező.</small>
                 }
             </div>
 
             <div>
-                <label for="password" class="block font-medium mb-2">Password</label>
-                <p-password
-                    id="password"
-                    formControlName="password"
-                    [toggleMask]="true"
-                    [invalid]="isInvalid('password')"
-                    placeholder="Min. 6 characters"
-                    styleClass="w-full"
-                    [inputStyle]="{ width: '100%' }"
-                />
+                <label for="password" class="block font-medium mb-2">Jelszó</label>
+                <p-password id="password" formControlName="password" [toggleMask]="true"
+                    [invalid]="isInvalid('password')" placeholder="Minimum 6 karakter" styleClass="w-full"
+                    [inputStyle]="{ width: '100%' }" />
                 @if (isInvalid('password')) {
-                    <small class="text-red-500 block mt-1">Password must be at least 6 characters.</small>
+                <small class="text-red-500 block mt-1">A jelszónak legalább 6 karakter hosszúnak kell lennie.</small>
                 }
             </div>
 
             <div>
-                <label for="confirmPassword" class="block font-medium mb-2">Confirm Password</label>
-                <p-password
-                    id="confirmPassword"
-                    formControlName="confirmPassword"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                    [invalid]="isInvalid('confirmPassword')"
-                    placeholder="Repeat password"
-                    styleClass="w-full"
-                    [inputStyle]="{ width: '100%' }"
-                />
+                <label for="confirmPassword" class="block font-medium mb-2">Jelszó megerősítése</label>
+                <p-password id="confirmPassword" formControlName="confirmPassword" [feedback]="false"
+                    [toggleMask]="true" [invalid]="isInvalid('confirmPassword')" placeholder="Jelszó megerősítése"
+                    styleClass="w-full" [inputStyle]="{ width: '100%' }" />
                 @if (isInvalid('confirmPassword')) {
-                    <small class="text-red-500 block mt-1">Passwords must match.</small>
+                <small class="text-red-500 block mt-1">A jelszavaknak meg kell egyezniük.</small>
                 }
             </div>
 
-            <p-button
-                type="submit"
-                label="Register"
-                icon="pi pi-user-plus"
-                [loading]="loading"
-                styleClass="w-full mt-2"
-            />
+            <p-button type="submit" label="Regisztráció" icon="pi pi-user-plus" [loading]="loading"
+                styleClass="w-full mt-2" />
 
             <div class="login-link">
-                <span class="text-color-secondary">Already have an account?</span>
-                <a routerLink="/login">Log in here</a>
+                <span class="text-color-secondary">Már van fiókod?</span>
+                <a routerLink="/login">Jelentkezz be itt</a>
             </div>
         </form>
     </p-card>
