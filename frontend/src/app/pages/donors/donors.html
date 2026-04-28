@@ -66,7 +66,7 @@
                 <div class="flex-1">
                     <label for="gender" class="block font-medium mb-2">Nem</label>
                     <p-select [options]="genderOptions" formControlName="gender" optionLabel="label" optionValue="value"
-                        placeholder="Select Gender" appendTo="body" styleClass="w-full" />
+                        placeholder="Nem Kiválasztása" appendTo="body" styleClass="w-full" />
                     @if(submitted && donorForm.controls.gender.invalid) {
                     <small class="text-red-500 block mt-1">Nem megadása kötelező.</small>
                     }

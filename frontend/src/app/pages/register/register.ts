@@ -80,8 +80,8 @@ export class RegisterComponent {
             next: () => {
                 this.messageService.add({
                     severity: "success",
-                    summary: "Success",
-                    detail: "Registration successful! Please log in.",
+                    summary: "Sikeres regisztráció",
+                    detail: "Sikeresen regisztrált! Kérjük, jelentkezzen be.",
                 });
                 this.router.navigateByUrl("/login");
             },
@@ -89,8 +89,8 @@ export class RegisterComponent {
                 this.loading = false;
                 this.messageService.add({
                     severity: "error",
-                    summary: "Error",
-                    detail: err.error?.error || "Registration failed.",
+                    summary: "Hiba",
+                    detail: err.error?.error || "Sikertelen regisztráció.",
                 });
             },
         });

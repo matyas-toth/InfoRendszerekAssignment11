@@ -61,8 +61,8 @@ export class LoginComponent {
                 this.authService.setToken(response.accessToken);
                 this.messageService.add({
                     severity: "success",
-                    summary: "Success",
-                    detail: "Logged in successfully!",
+                    summary: "Sikeres bejelentkezés",
+                    detail: "Sikeresen bejelentkezett!",
                 });
                 this.router.navigateByUrl("/dashboard");
             },
@@ -70,8 +70,8 @@ export class LoginComponent {
                 this.loading = false;
                 this.messageService.add({
                     severity: "error",
-                    summary: "Error",
-                    detail: err.error?.error || "Login failed.",
+                    summary: "Hiba",
+                    detail: err.error?.error || "Sikertelen bejelentkezés.",
                 });
             },
         });
