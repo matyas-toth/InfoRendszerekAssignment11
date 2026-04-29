@@ -27,41 +27,41 @@ export class DonationController extends BaseController<Donation> {
 
             // Basic validation
             if (!locationId || !donorId || eligible === undefined || !doctorName || directed === undefined) {
-                return this.handleError(res, null, 400, "Missing required fields.");
+                return this.handleError(res, null, 400, "Nem töltötted ki az összes mezőt.");
             }
 
             // Location validation
             const location = await this.locationRepository.findOneBy({ id: locationId });
             if (!location) {
-                return this.handleError(res, null, 404, "Location not found.");
+                return this.handleError(res, null, 404, "Nem találtunk helyszínt.");
             }
             if (!location.active) {
-                return this.handleError(res, null, 400, "Location is not currently active for donations.");
+                return this.handleError(res, null, 400, "Ez a helszín jelenleg nem fogad véradásokat");
             }
 
             // Donor validation
             const donor = await this.donorRepository.findOneBy({ id: donorId });
             if (!donor) {
-                return this.handleError(res, null, 404, "Donor not found.");
+                return this.handleError(res, null, 404, "Nincs ilyen donor.");
             }
 
             // Eligibility logic
             if (!eligible) {
                 if (!ineligibilityReason) {
-                    return this.handleError(res, null, 400, "Ineligibility reason is required when not eligible.");
+                    return this.handleError(res, null, 400, "Adj meg egy indokot, hogy miért nem alkalmas véradásra.");
                 }
                 if (directed) {
-                    return this.handleError(res, null, 400, "Ineligible donors cannot make directed donations.");
+                    return this.handleError(res, null, 400, "A nem alkalmas donorok nem végezhetnek célzott véradást.");
                 }
             }
 
             // Directed logic
             if (directed) {
                 if (!patientName || !patientTajNumber) {
-                    return this.handleError(res, null, 400, "Patient name and TAJ number are required for directed donations.");
+                    return this.handleError(res, null, 400, "Szükséges a páciens neve és TAJ száma a véradáshoz.");
                 }
                 if (!isValidTaj(patientTajNumber)) {
-                    return this.handleError(res, null, 400, "Invalid patient TAJ number.");
+                    return this.handleError(res, null, 400, "Helytelen TAJ szám.");
                 }
             }
 

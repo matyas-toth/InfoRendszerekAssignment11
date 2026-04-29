@@ -11,7 +11,7 @@ export class LocationController extends BaseController<Location> {
             const id = parseInt(req.params.id as string);
             const entity = await this.repository.findOneBy({ id } as any);
             if (!entity) {
-                return res.status(404).json({ error: "Location not found." });
+                return res.status(404).json({ error: "Nincs ilyen helszín." });
             }
             entity.active = !entity.active;
             const saved = await this.repository.save(entity);

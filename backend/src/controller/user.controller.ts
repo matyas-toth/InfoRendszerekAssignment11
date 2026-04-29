@@ -15,12 +15,12 @@ export class UserController extends BaseController<User> {
             const { email, password, firstName, lastName } = req.body;
 
             if (!email || !password || !firstName || !lastName) {
-                return this.handleError(res, null, 400, "All fields are required.");
+                return this.handleError(res, null, 400, "Az összes mező kitöltése kötelező.");
             }
 
             const existing = await this.repository.findOneBy({ email });
             if (existing) {
-                return this.handleError(res, null, 409, "Email already in use.");
+                return this.handleError(res, null, 409, "Ez az e-mail már használatban van");
             }
 
             const entity = this.repository.create({ email, firstName, lastName } as User);
@@ -40,7 +40,7 @@ export class UserController extends BaseController<User> {
             const { email, password } = req.body;
 
             if (!email || !password) {
-                return this.handleError(res, null, 400, "Email and password are required.");
+                return this.handleError(res, null, 400, "Email és jelszó megadása kötelező.");
             }
 
             const user = await this.repository.findOne({
@@ -49,12 +49,12 @@ export class UserController extends BaseController<User> {
             });
 
             if (!user) {
-                return this.handleError(res, null, 401, "Incorrect email or password.");
+                return this.handleError(res, null, 401, "Helytelen email vagy jelszó.");
             }
 
             const passwordMatches = await bcrypt.compare(password, user.password);
             if (!passwordMatches) {
-                return this.handleError(res, null, 401, "Incorrect email or password.");
+                return this.handleError(res, null, 401, "Helytelen email vagy jelszó.");
             }
 
             const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "2w" });

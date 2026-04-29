@@ -11,12 +11,12 @@ export class DonorController extends BaseController<Donor> {
         try {
             const donorData = req.body as Donor;
             if (!isValidTaj(donorData.tajNumber)) {
-                return this.handleError(res, null, 400, "Invalid TAJ number.");
+                return this.handleError(res, null, 400, "Helytelen TAJ szám.");
             }
 
             const existing = await this.repository.findOneBy({ tajNumber: donorData.tajNumber });
             if (existing) {
-                return this.handleError(res, null, 409, "TAJ number already registered.");
+                return this.handleError(res, null, 409, "Már létezik ilyen TAJ szám.");
             }
 
             const entity = this.repository.create(donorData);
@@ -32,7 +32,7 @@ export class DonorController extends BaseController<Donor> {
         try {
             const donorData = req.body as Donor;
             if (!isValidTaj(donorData.tajNumber)) {
-                return this.handleError(res, null, 400, "Invalid TAJ number.");
+                return this.handleError(res, null, 400, "Helytelen TAJ szám.");
             }
 
             const entity = this.repository.create(donorData);
